@@ -670,8 +670,223 @@ footer { border-top:1px solid var(--rule);padding:40px var(--M);display:flex;jus
 }
 
 
-.reveal { opacity:0;transform:translateY(30px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1); }
-.reveal.visible { opacity:1;transform:none; }
+/* ════════════════════════════════════════════
+   IMPECCABLE ANIMATE — purposeful motion layer
+   Easing: ease-out-quart/expo only. No bounce.
+   No layout property animation.
+════════════════════════════════════════════ */
+
+/* 1. CURSOR GLOW */
+#cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(
+    600px circle at var(--cx,50%) var(--cy,50%),
+    oklch(74% 0.07 68 / 0.045) 0%,
+    transparent 70%
+  );
+}
+
+/* 2. REVEAL — smoother, slightly faster */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity   0.7s cubic-bezier(0.16,1,0.3,1),
+    transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* 3. STAGGER GROUP */
+.reveal-group > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity   0.6s cubic-bezier(0.16,1,0.3,1),
+    transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-group.visible > *:nth-child(1) { opacity:1;transform:none;transition-delay:.00s; }
+.reveal-group.visible > *:nth-child(2) { opacity:1;transform:none;transition-delay:.08s; }
+.reveal-group.visible > *:nth-child(3) { opacity:1;transform:none;transition-delay:.16s; }
+.reveal-group.visible > *:nth-child(4) { opacity:1;transform:none;transition-delay:.24s; }
+.reveal-group.visible > *:nth-child(5) { opacity:1;transform:none;transition-delay:.32s; }
+.reveal-group.visible > *:nth-child(6) { opacity:1;transform:none;transition-delay:.40s; }
+
+/* 4. PROOF NUM POP */
+@keyframes proofPop {
+  from { opacity:0; transform: scale(0.65) translateY(10px); }
+  to   { opacity:1; transform: scale(1)    translateY(0); }
+}
+.proof-num.pop-in {
+  animation: proofPop 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* 5. SKILL CHIP CASCADE */
+.skills-wrap .skill-chip {
+  opacity: 0;
+  transform: translateY(6px) scale(0.94);
+  transition:
+    opacity   0.38s cubic-bezier(0.16,1,0.3,1),
+    transform 0.38s cubic-bezier(0.16,1,0.3,1);
+}
+.skills-wrap.chips-visible .skill-chip           { opacity:1; transform:none; }
+.skills-wrap.chips-visible .skill-chip:nth-child(1) { transition-delay:.00s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(2) { transition-delay:.05s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(3) { transition-delay:.10s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(4) { transition-delay:.15s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(5) { transition-delay:.20s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(6) { transition-delay:.25s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(7) { transition-delay:.30s; }
+.skills-wrap.chips-visible .skill-chip:nth-child(8) { transition-delay:.35s; }
+
+/* 6. DESTINATION ROWS — slide from left */
+.dest {
+  opacity: 0;
+  transform: translateX(-14px);
+  transition:
+    opacity   0.5s cubic-bezier(0.16,1,0.3,1),
+    transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.dest.dest-visible { opacity:1; transform:none; }
+.dest:nth-child(1).dest-visible { transition-delay:.00s; }
+.dest:nth-child(2).dest-visible { transition-delay:.10s; }
+.dest:nth-child(3).dest-visible { transition-delay:.20s; }
+
+/* 7. MENTOR CARD LIFT */
+.mentor-card {
+  transition:
+    transform   0.35s cubic-bezier(0.16,1,0.3,1),
+    box-shadow  0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.mentor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px oklch(0% 0 0 / 0.5);
+}
+
+/* 8. VIDEO CARD LIFT */
+.vid-card {
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.vid-card:hover { transform: translateY(-4px); }
+
+/* 9. DEGREE SHIMMER BORDER */
+.degree {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.degree::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  background: linear-gradient(var(--ink2),var(--ink2)) padding-box,
+              var(--grad) border-box;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+.degree:hover { transform: translateY(-3px); }
+.degree:hover::after { opacity: 1; }
+
+/* 10. STACK PANEL TRANSITION — upgraded */
+.stack-panel {
+  transition: transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.stack-panel.past {
+  transition: transform 0.45s cubic-bezier(0.4,0,1,1);
+}
+
+/* 11. TICKER PAUSE ON HOVER */
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+/* 12. NAV LINKS — underline from left */
+.nav-links a { position: relative; }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--fire);
+  transition: width 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-links a:hover::after { width: 100%; }
+
+/* 13. BTN-FILL SHIMMER */
+.btn-fill { position: relative; overflow: hidden; }
+.btn-fill::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 55%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-18deg);
+}
+.btn-fill:hover::before {
+  animation: shimmer 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes shimmer {
+  from { left: -100%; }
+  to   { left:  160%; }
+}
+
+/* 14. SP-NUM FADE UP ON PANEL ACTIVATE */
+.sp-num {
+  transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1),
+              transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.stack-panel:not(.active) .sp-num { opacity:0; transform:translateY(10px); }
+.stack-panel.active        .sp-num { opacity:1; transform:none; transition-delay:0.22s; }
+
+/* 15. RANVEER PLAY BREATHE */
+@keyframes breathe {
+  0%,100% { transform:translate(-50%,-50%) scale(1);    opacity:.6; }
+  50%      { transform:translate(-50%,-50%) scale(1.07); opacity:1;  }
+}
+.ranveer-play { animation: breathe 2.8s ease-in-out infinite; }
+.ranveer-media:hover .ranveer-play {
+  animation: none;
+  transform: translate(-50%,-50%) scale(1.1);
+}
+
+/* 16. DEADLINE BADGE PULSE */
+@keyframes badgePulse {
+  0%,100% { opacity:1; }
+  50%      { opacity:.65; }
+}
+.deadline-badge { animation: badgePulse 2.6s ease-in-out infinite; }
+
+/* 17. URGENCY DOT */
+@keyframes urgencyPulse {
+  0%,100% { transform: scale(1);   opacity:1; }
+  50%      { transform: scale(1.5); opacity:.5; }
+}
+.urgency-dot { animation: urgencyPulse 1.8s ease-in-out infinite; }
+
+/* 18. STAT CELL GRADIENT BAR */
+.stat-cell::before {
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* 19. GLOBAL IMG PARALLAX CONTAINER */
+.global-img {
+  transition: filter 0.4s, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.global-img:hover { transform: scale(1.02); }
+
+/* 20. FACULTY HEAD H2 — word-by-word stagger (set via JS) */
+.faculty-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity   0.5s cubic-bezier(0.16,1,0.3,1),
+    transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.faculty-word.word-visible { opacity:1; transform:none; }
+
+
 
 /* ── GLOBAL PARAGRAPH SIZE ── */
 p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role):not(.contact-type):not(.deadline-label):not(.vid-name):not(.vid-title):not(.sem-phase):not(.footer-copy) {
@@ -879,6 +1094,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 </style>
 </head>
 <body>
+<div id="cursor-glow"></div>
 
 <!-- NAV -->
 <nav>
@@ -1556,6 +1772,196 @@ const navIO = new IntersectionObserver((entries) => {
   const el = document.getElementById(id);
   if (el) navIO.observe(el);
 });
+</script>
+
+<script>
+/* ════════════════════════════════════════
+   IMPECCABLE ANIMATE — JS orchestration
+════════════════════════════════════════ */
+
+/* ── CURSOR GLOW ── */
+(function(){
+  const glow = document.getElementById('cursor-glow');
+  if (!glow || window.matchMedia('(pointer: coarse)').matches) {
+    if (glow) glow.style.display = 'none';
+    return;
+  }
+  let raf;
+  let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  let cx = tx, cy = ty;
+  window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  function tick() {
+    cx += (tx - cx) * 0.1;
+    cy += (ty - cy) * 0.1;
+    glow.style.setProperty('--cx', cx + 'px');
+    glow.style.setProperty('--cy', cy + 'px');
+    raf = requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+/* ── REVEAL GROUPS (stagger) ── */
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal-group').forEach(el => io.observe(el));
+})();
+
+/* ── PROOF NUMBER POP (stagger per panel) ── */
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const nums = e.target.querySelectorAll('.proof-num');
+      nums.forEach((n, i) => {
+        setTimeout(() => n.classList.add('pop-in'), i * 90);
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.proof-list').forEach(el => io.observe(el));
+})();
+
+/* ── SKILL CHIP CASCADE ── */
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('chips-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.skills-wrap').forEach(el => io.observe(el));
+})();
+
+/* ── DESTINATION ROWS ── */
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const dests = e.target.querySelectorAll('.dest');
+      dests.forEach((d, i) => {
+        setTimeout(() => d.classList.add('dest-visible'), i * 110);
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.dest-list').forEach(el => io.observe(el));
+})();
+
+/* ── STAT COUNT-UP ── */
+(function(){
+  function countUp(el) {
+    const raw   = el.textContent.trim();
+    const match = raw.match(/^(\d[\d,]*)(\+?K?%?.*)?$/);
+    if (!match) return;
+    const num    = parseInt(match[1].replace(/,/g, ''), 10);
+    const suffix = (match[2] || '').trim();
+    if (isNaN(num) || num === 0) return;
+
+    const duration = 900;
+    const start    = performance.now();
+
+    function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 4); // ease-out-quart
+      const val   = Math.round(eased * num);
+      el.textContent = val.toLocaleString() + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.stat-value').forEach(countUp);
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.stats-bar').forEach(el => io.observe(el));
+})();
+
+/* ── FACULTY HEADING WORD STAGGER ── */
+(function(){
+  const h2 = document.querySelector('.faculty-head h2');
+  if (!h2) return;
+
+  // Split text nodes into word spans, preserve .grad-text spans
+  function wrapWords(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const words = node.textContent.split(/(\s+)/);
+      const frag  = document.createDocumentFragment();
+      words.forEach(w => {
+        if (/^\s+$/.test(w)) {
+          frag.appendChild(document.createTextNode(w));
+        } else if (w.length) {
+          const span = document.createElement('span');
+          span.className = 'faculty-word';
+          span.textContent = w;
+          frag.appendChild(span);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      // Wrap the whole element as one word-unit
+      node.classList.add('faculty-word');
+    }
+  }
+
+  Array.from(h2.childNodes).forEach(wrapWords);
+
+  const words = h2.querySelectorAll('.faculty-word');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      words.forEach((w, i) => {
+        setTimeout(() => w.classList.add('word-visible'), i * 55);
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.2 });
+  io.observe(h2);
+})();
+
+/* ── EYEBROW MONO CLIP REVEAL ── */
+(function(){
+  const monos = document.querySelectorAll('.mono.eyebrow');
+  monos.forEach(m => m.classList.add('mono-reveal'));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  monos.forEach(m => io.observe(m));
+})();
+
+/* ── EYEBROW LINE DRAW ── */
+(function(){
+  document.querySelectorAll('.eyebrow-line').forEach(line => {
+    line.classList.add('eyebrow-draw');
+    line.classList.remove('eyebrow-line');
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('drawn'), 120);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.eyebrow-draw').forEach(el => io.observe(el));
+})();
 </script>
 </body>
 </html>
