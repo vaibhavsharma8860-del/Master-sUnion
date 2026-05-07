@@ -49,8 +49,32 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── GRADIENT TEXT UTILITY ── */
+/* ── GRADIENT TEXT ── */
 .grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section heading accent — Instrument Serif Italic + gradient (Image 3 style) */
+.heading-accent {
+  font-family: 'Instrument Serif', Georgia, serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: 0.01em !important;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero accent — Instrument Serif Italic, GRADIENT (matches brand gradient) */
+.hero-accent {
+  font-family: 'Instrument Serif', Georgia, serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: 0.01em !important;
   background: var(--grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -89,7 +113,20 @@ nav {
 .degree-name,
 .section h2 {
   font-size: var(--h-section) !important;
-  line-height: 1.0;
+  line-height: 1.15;
+}
+
+/* Heading accents need a touch more leading when mixed with display font */
+.section-title .heading-accent,
+.sp-title .heading-accent,
+.ranveer-body h2 .heading-accent,
+.global-inner h2 .heading-accent,
+.faculty-head h2 .heading-accent,
+.section h2 .heading-accent,
+.cta-title .heading-accent {
+  line-height: 1.2;
+  display: inline-block;
+  margin-top: 3px;
 }
 
 /* sem-title (curriculum tab headings) slightly smaller — they're card-level */
@@ -116,18 +153,9 @@ nav {
   line-height: 1.8;
 }
 
-/* ──────────────────────────────────────────────
-   UNIFORM LINK COLOUR
-   All ghost / inline links use --link (yellow)
-────────────────────────────────────────────── */
-.btn-ghost,
-a.btn-ghost {
-  color: var(--link) !important;
-  border-bottom-color: rgba(246,210,67,0.3) !important;
-}
+/* Ghost links — use class-defined color, no global override needed */
 .btn-ghost:hover, a.btn-ghost:hover {
-  color: var(--snow) !important;
-  border-bottom-color: rgba(246,210,67,0.7) !important;
+  opacity: 0.75;
 }
 .contact-val {
   color: var(--snow);
@@ -311,8 +339,7 @@ a.btn-ghost {
 .hero-body {
   position: relative; z-index: 2;
   display: flex; flex-direction: column; justify-content: flex-end;
-  flex: 1; padding: 0 var(--M) 76px;
-  margin-bottom: 80px;
+  flex: 1; padding: 0 var(--M) 64px;
 }
 .hero-eyebrow {
   display: flex; align-items: center; gap: 16px; margin-bottom: 26px;
@@ -324,7 +351,7 @@ a.btn-ghost {
   background: var(--grad);
 }
 .hero-title {
-  font-size: clamp(68px, 11vw, 132px); margin-bottom: 48px;
+  font-size: clamp(48px, 7.5vw, 96px); margin-bottom: 36px;
   opacity: 0; animation: riseUp .9s cubic-bezier(.16,1,.3,1) .42s forwards;
 }
 .hero-foot {
@@ -344,15 +371,118 @@ a.btn-ghost {
 @keyframes scrollBlink { 0%,100%{opacity:.35} 50%{opacity:1} }
 @keyframes riseUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
 
-/* ── BUTTONS ── */
-.btn { display:inline-flex;align-items:center;gap:10px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:transform .14s,opacity .18s,color .18s,border-color .18s; }
-.btn:hover { transform: translateY(-2px); }
-.btn-fill { background:var(--grad);color:#0a0a08;padding:14px 32px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%); }
-.btn-fill:hover { opacity: 0.88; }
-.btn-outline { background:transparent;color:var(--snow);padding:13px 28px;border:1px solid var(--rule2); }
-.btn-outline:hover { border-color:var(--fire);color:var(--fire); }
-.btn-ghost { background:transparent;color:var(--fire);padding:0;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-bottom:1px solid var(--fire-bd);padding-bottom:3px;transition:opacity .18s; }
-.btn-ghost:hover { opacity: 0.7; }
+/* ══════════════════════════════════════════
+   MASTERS' UNION — EXACT CTA SYSTEM
+   3 types, each with brand-accurate animation
+══════════════════════════════════════════ */
+
+/* Base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 100px;
+  white-space: nowrap;
+  transition: background .22s, color .22s, border-color .22s, box-shadow .22s, transform .16s cubic-bezier(.16,1,.3,1);
+}
+
+/* ── TYPE 1: WHITE FILL pill (Image 1: "Watch Intro Video ↗")
+   Hover: arrow slides up-out, new arrow enters from below ── */
+.btn-fill {
+  background: #ffffff;
+  color: #0a0a08;
+  padding: 15px 30px;
+  clip-path: none !important;
+  border-radius: 100px !important;
+  border: none;
+  overflow: hidden;
+  position: relative;
+}
+.btn-fill .btn-arrow {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.1em;
+  overflow: hidden;
+  line-height: 1.1em;
+  font-style: normal;
+}
+.btn-fill .btn-arrow span {
+  display: block;
+  transition: transform 0.3s cubic-bezier(.16,1,.3,1);
+  line-height: 1.1em;
+  /* MU uses a slightly rotated arrow — rotate 45deg to get the diagonal ↗ feel */
+  display: inline-block;
+  transform-origin: center;
+}
+.btn-fill:hover { background: #f0ede6; transform: none; }
+.btn-fill:hover .btn-arrow span { transform: translateY(-100%); }
+
+/* ── TYPE 2: WHITE OUTLINE pill (Image 1: "Download Yearbook ↓")
+   Hover: download icon bounces down ── */
+.btn-outline {
+  background: transparent;
+  color: #ffffff;
+  padding: 14px 30px;
+  border: 1.5px solid rgba(255,255,255,0.55);
+  border-radius: 100px !important;
+}
+.btn-outline .btn-dl {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(.16,1,.3,1);
+}
+.btn-outline:hover { border-color: rgba(255,255,255,0.9); color: #fff; transform: none; }
+.btn-outline:hover .btn-dl { transform: translateY(3px); }
+
+/* ── TYPE 3: GRADIENT STROKE outline pill (Image 2: "Explore Programme ↗")
+   Hover: becomes white fill with dark text ── */
+.btn-grad {
+  background: transparent;
+  color: #ffffff;
+  padding: 14px 30px;
+  border-radius: 100px !important;
+  /* Gradient border trick */
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(var(--ink2), var(--ink2)), var(--grad);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: background .25s, color .22s, transform .16s cubic-bezier(.16,1,.3,1);
+}
+.btn-grad:hover {
+  background-image: none;
+  background: #ffffff;
+  color: #0a0a08;
+  transform: none;
+}
+
+/* ── Ghost link — inline text + underline (degree cards, section CTAs) ── */
+.btn-ghost {
+  background: transparent;
+  color: var(--fire);
+  padding: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--fire-bd);
+  padding-bottom: 2px;
+  border-radius: 0;
+  transition: opacity .2s, color .2s;
+}
+.btn-ghost:hover { opacity: 0.72; }
+
 
 /* ── TICKER ── */
 .ticker { overflow:hidden;height:42px;display:flex;align-items:center;background:var(--grad); }
@@ -412,7 +542,21 @@ a.btn-ghost {
 .sp-media { position:relative;overflow:hidden;background:var(--ink2); }
 .sp-media img { width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.68) saturate(.9);transition:filter .4s; }
 .sp-media img:hover { filter:brightness(.88) saturate(1); }
-.sp-tag { position:absolute;bottom:22px;left:22px;background:var(--ink);color:var(--fire);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--fire-bd); }
+.sp-tag {
+  position: absolute;
+  bottom: 22px; left: 22px;
+  background: rgba(255,255,255,0.12);
+  color: var(--snow);
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: none;
+  backdrop-filter: blur(8px);
+}
 
 .sp-body {
   padding: 48px 64px;
@@ -420,16 +564,50 @@ a.btn-ghost {
   background: var(--ink2);
   border-left: 1px solid var(--rule);
   overflow: hidden;
+  gap: 0;
+}
+.sp-body .mono.eyebrow {
+  display: inline-block;
+  width: fit-content;
+  align-self: flex-start;
+  background: rgba(255,255,255,0.09);
+  color: oklch(80% 0 0);
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  margin-top: 8px;
 }
 .stack-panel.flipped .sp-body { border-left:none;border-right:1px solid var(--rule); }
 
-.sp-num { font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;color:var(--rule2);margin-bottom:-8px;letter-spacing:.02em; }
-.sp-title { font-size:clamp(28px,2.6vw,44px);margin-bottom:14px; }
+.sp-num { font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;color:var(--rule2);margin-bottom:4px;letter-spacing:.02em; }
+.sp-title { font-size:clamp(28px,2.6vw,44px);margin-bottom:14px;line-height:1.25; }
+.sp-title .heading-accent { line-height: 1.3; display: inline-block; margin-top: 2px; }
 .sp-desc { font-size:16px;color:var(--ash);line-height:1.75;margin-bottom:28px;max-width:420px; }
-.proof-list { display:flex;flex-direction:column;border-top:1px solid var(--rule); }
-.proof-item { display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 0;border-bottom:1px solid var(--rule); }
-.proof-num { font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1; }
-.proof-text { font-size:16px;color:var(--ash);line-height:1.5; }
+.proof-list { display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule); }
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.proof-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 56px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.proof-text { font-size:16px;color:var(--ash);line-height:1.55; }
 .proof-text strong { color:var(--snow);font-weight:700; }
 
 /* Scroll trigger spacers — each spacer triggers its panel */
@@ -556,10 +734,10 @@ a.btn-ghost {
 .degrees { display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:56px; }
 .degree { background:var(--ink2);border:1px solid var(--rule);overflow:visible;position:relative; }
 .degree-bar { height:3px;background:var(--grad); }
-.degree-img-clip { overflow:hidden; }
+.degree-img-wrap { overflow:hidden; }
 .degree-img { width:100%;height:220px;object-fit:cover;display:block;filter:brightness(.65) saturate(.8);transition:filter .4s,transform .5s cubic-bezier(.16,1,.3,1); }
 .degree:hover .degree-img { filter:brightness(.82) saturate(1.1);transform:scale(1.04); }
-.degree-body { padding:40px 44px 44px; }
+.degree-body { padding:40px 44px 44px;position:relative;z-index:1; }
 .degree-track { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);margin-bottom:16px;display:block; }
 .degree-name { font-family:'Bebas Neue',sans-serif;font-size:50px;line-height:.95;color:var(--snow);margin-bottom:24px;letter-spacing:.02em; }
 .degree-pts { list-style:none;display:flex;flex-direction:column;gap:12px; }
@@ -772,19 +950,33 @@ footer { border-top:1px solid var(--rule);padding:40px var(--M);display:flex;jus
 }
 .vid-card:hover { transform: translateY(-4px); }
 
-/* 9. DEGREE HOVER — clean lift only, no gradient overlay */
+/* 9. DEGREE HOVER — gradient border stroke + lift (Image 5 style) */
 .degree {
   position: relative;
-  transition:
-    transform  0.38s cubic-bezier(0.16,1,0.3,1),
-    box-shadow 0.38s cubic-bezier(0.16,1,0.3,1);
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1), box-shadow 0.38s cubic-bezier(0.16,1,0.3,1);
+}
+.degree::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 0;
+  padding: 1.5px;
+  background: var(--grad);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.38s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+  z-index: 2;
 }
 .degree:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 60px oklch(0% 0 0 / 0.55);
+  box-shadow: 0 16px 48px oklch(0% 0 0 / 0.55);
 }
-/* Keep content above any stacking context */
-.degree-bar, .degree-img-clip, .degree-body { position: relative; z-index: 1; }
+.degree:hover::after { opacity: 1; }
+/* ensure bar and body stay above ::after */
+.degree-bar, .degree-img-wrap, .degree-body { position: relative; z-index: 1; }
 
 /* 10. STACK PANEL TRANSITION — upgraded */
 .stack-panel {
@@ -1081,11 +1273,131 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 @media (max-width: 400px) {
   .hero-title { font-size: 36px; }
   .cta-title { font-size: 38px; }
-  .hero-btns { flex-direction: column; }
+  .hero-btns { flex-direction: column; width: 100%; }
   .hero-btns .btn { width: 100%; justify-content: center; }
   .sem-content { padding: 24px 16px !important; }
   .sem-visual { height: 180px !important; }
   .sem-visual img { height: 180px !important; max-height: 180px !important; }
+}
+
+/* ════════════════════════════════════════════
+   MASTERS' UNION BRAND SYSTEM — FINAL LAYER
+   Applied from studying mastersunion.org
+════════════════════════════════════════════ */
+
+/* Instrument Serif already loaded; enforce globally for heading-accent */
+.heading-accent, .hero-accent {
+  font-family: 'Instrument Serif', Georgia, serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}
+
+/* Shimmer removed from btn-fill — MU buttons are clean, no shimmer */
+.btn-fill::before { display: none !important; }
+
+/* MU skill chips — rectangular, DM Mono, no radius */
+.skill-chip {
+  border-radius: 0 !important;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+/* MU section eyebrow label — pill shape, grey bg (Image 3 style) */
+.mono.eyebrow {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--snow);
+}
+
+/* MU nav link tracking */
+.nav-links a {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 14px;
+}
+
+/* MU footer — mono uppercase labels */
+.footer-links a {
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+/* Responsive: proof-item on mobile — ensure horizontal layout */
+@media (max-width: 600px) {
+  .proof-item { gap: 12px; padding: 12px 0; }
+  .proof-num { font-size: 22px; min-width: 40px; }
+  .proof-text { font-size: 14px; }
+}
+
+/* Responsive: hero title on mobile */
+@media (max-width: 600px) {
+  .hero-accent { font-size: 0.95em; }
+}
+
+/* Responsive: btn full width on small mobile in CTA section */
+@media (max-width: 480px) {
+  .cta-btns { flex-direction: column; }
+  .cta-btns .btn { width: 100% !important; justify-content: center; flex: none !important; }
+  .sticky-cta-actions .btn { padding: 10px 18px !important; font-size: 12px; }
+  .deadline-badge { font-size: 10px; padding: 7px 12px; }
+}
+
+/* Responsive: contact row wraps on small screens */
+@media (max-width: 540px) {
+  .contact-row { flex-direction: column; }
+  .contact-item { border-right: none !important; border-bottom: 1px solid var(--rule); }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-val { font-size: 12px; word-break: break-all; }
+}
+
+/* Responsive: degree body padding */
+@media (max-width: 600px) {
+  .degree-body { padding: 24px 20px 28px; }
+  .degree-name { font-size: 34px !important; }
+}
+
+/* Responsive: global section */
+@media (max-width: 600px) {
+  .global-inner { gap: 28px; padding: 56px 20px; }
+}
+
+/* Responsive: faculty head */
+@media (max-width: 600px) {
+  .faculty-head { padding: 0 20px 32px; }
+  .faculty-head h2 { line-height: 1.1 !important; }
+}
+
+/* Responsive: mobile nav larger touch targets */
+@media (max-width: 900px) {
+  .mobile-nav a { min-height: 52px; display: flex; align-items: center; }
+  .nav-hamburger { min-width: 44px; min-height: 44px; }
+  /* Proof items on mobile overlap panels */
+  .sp-body .proof-item { padding: 12px 0; }
+  .sp-body .proof-num { font-size: 22px; min-width: 44px; }
+}
+
+/* Responsive: ranveer body on 900px */
+@media (max-width: 1200px) {
+  .ranveer-body { padding: 52px var(--M); }
+}
+
+/* MU: hero desc bold weight */
+.hero-desc strong { font-weight: 700; color: var(--snow); }
+
+/* MU: sp-num use Manrope not Bebas */
+.sp-num {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 </style>
 </head>
@@ -1131,17 +1443,19 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       <span class="eyebrow-line"></span>
       <span class="mono">Undergraduate Programme &nbsp;·&nbsp; Data Science & AI</span>
     </div>
-    <h1 class="display hero-title">
-      A Degree Where<br>You <span class="grad-text">Learn<br>by Building</span>
+    <h1 class="hero-title" style="font-family:'Manrope',sans-serif;font-weight:600;letter-spacing:-0.01em;line-height:1.1;">
+      A Degree Where You<br><span class="hero-accent">Learn by Building</span>
     </h1>
     <div class="hero-foot">
       <p class="hero-desc">Co-built with <strong>PwC & Ola Krutrim.</strong> Build real products, intern from Year 1, and study abroad at <strong>Illinois Tech, Chicago.</strong></p>
       <div class="hero-btns">
         <a class="btn btn-fill" href="https://mastersunion.org/dsai-applynow">
           Apply Now
-          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5h10M7 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="btn-arrow"><span>↗</span><span>↗</span></span>
         </a>
-        <a class="btn btn-outline" href="https://www.youtube.com/watch?v=YG1sW00jwLY" target="_blank">Watch Intro</a>
+        <a class="btn btn-outline" href="#">
+          Download Brochure <span class="btn-dl">↓</span>
+        </a>
       </div>
     </div>
   </div>
@@ -1208,7 +1522,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       <div class="sp-body">
         <div class="sp-num">01</div>
         <p class="mono eyebrow">Curriculum</p>
-        <h2 class="display sp-title">Low-Theory.<br><span class="grad-text">High Impact.</span><br>Built with PwC<br>& Ola Krutrim.</h2>
+        <h2 class="display sp-title">Low-Theory.<br><span class="heading-accent">High Impact.</span><br>Built with PwC<br>& Ola Krutrim.</h2>
         <p class="sp-desc">Our curriculum takes students outside the classroom and inside the labs creating the future. Less memorisation. More shipping real products.</p>
         <div class="proof-list">
           <div class="proof-item"><span class="proof-num grad-text">5K</span><span class="proof-text"><strong>Sq ft. maker lab</strong> to build hardware and software prototypes</span></div>
@@ -1241,7 +1555,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       <div class="sp-body">
         <div class="sp-num">02</div>
         <p class="mono eyebrow">Mentorship</p>
-        <h2 class="display sp-title">Learn from the<br>People <span class="grad-text">Building It</span><br>Right Now.</h2>
+        <h2 class="display sp-title">Learn from the<br>People <span class="heading-accent">Building It</span><br>Right Now.</h2>
         <p class="sp-desc">Skip large lecture halls. Learn 1:1 or in small candid groups from CTOs and Ivy League faculty who ship cutting-edge products every day.</p>
         <div class="proof-list">
           <div class="proof-item"><span class="proof-num grad-text">30+</span><span class="proof-text"><strong>CTOs & Product Heads</strong> actively mentoring each cohort</span></div>
@@ -1260,7 +1574,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       <div class="sp-body">
         <div class="sp-num">03</div>
         <p class="mono eyebrow">Internships</p>
-        <h2 class="display sp-title">Internships<br>Start in <span class="grad-text">Year 1.</span><br>Not the<br>Final Year.</h2>
+        <h2 class="display sp-title">Internships<br>Start in <span class="heading-accent">Year 1.</span><br>Not the<br>Final Year.</h2>
         <p class="sp-desc">Work at Microsoft India, Razorpay, and Krutrim from your very first year — not as a checkbox at the end of a degree.</p>
         <div class="proof-list">
           <div class="proof-item"><span class="proof-num grad-text">75%</span><span class="proof-text"><strong>Students intern within Year 1</strong> of college</span></div>
@@ -1284,7 +1598,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       <div class="sp-body">
         <div class="sp-num">04</div>
         <p class="mono eyebrow">Learn by Shipping</p>
-        <h2 class="display sp-title">Build & Ship<br>One AI Product<br>Every <span class="grad-text">Term.</span></h2>
+        <h2 class="display sp-title">Build & Ship<br>One AI Product<br>Every <span class="heading-accent">Term.</span></h2>
         <p class="sp-desc">No hypothetical case studies. Every assignment ships to real users, demoed live to VCs and CXOs.</p>
         <div class="proof-list">
           <div class="proof-item"><span class="proof-num grad-text">40+</span><span class="proof-text"><strong>Shipped products</strong> before graduation — a portfolio, not a GPA</span></div>
@@ -1308,7 +1622,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
   <div class="faculty-head reveal">
     <div>
       <p class="mono eyebrow">Faculty</p>
-      <h2 class="display section-title" style="margin-bottom:0;">40+ Empaneled <span class="grad-text">Industry Experts</span></h2>
+      <h2 class="display section-title" style="margin-bottom:0;">40+ Empaneled <span class="heading-accent">Industry Experts</span></h2>
     </div>
     <p class="faculty-sub">They build products in the morning and teach how to do it in the evening.</p>
   </div>
@@ -1356,7 +1670,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 <!-- FACULTY VIDEOS -->
 <div class="section section-sm" style="padding-top:80px;">
   <p class="mono eyebrow">Faculty Insights</p>
-  <h2 class="display section-title">Real Insights. <span class="grad-text">From Real Builders.</span></h2>
+  <h2 class="display section-title">Real Insights. <span class="heading-accent">From Real Builders.</span></h2>
   <div class="videos-grid reveal">
     <div class="vid-card" onclick="window.open('https://www.youtube.com/@MastersUnion','_blank')">
       <img src="https://images.mastersunion.link/uploads/24072025/v1/image.webp" alt="Tarun Malik" loading="lazy">
@@ -1389,10 +1703,10 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       <div class="ranveer-play"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M1 1.5l16 8.5L1 18.5V1.5z" fill="white"/></svg></div>
     </div>
     <div class="ranveer-body">
-      <p class="mono eyebrow">As Seen On</p>
-      <h2 class="display" style="font-size:clamp(38px,4vw,64px);line-height:.93;margin-bottom:22px;">Exploring<br>the <span class="grad-text">Future of AI</span><br>on The Ranveer<br>Show.</h2>
+      <p class="mono eyebrow" style="align-self:flex-start;width:fit-content;">As Seen On</p>
+      <h2 class="display" style="font-size:clamp(38px,4vw,64px);line-height:.93;margin-bottom:22px;">Exploring<br>the <span class="heading-accent">Future of AI</span><br>on The Ranveer<br>Show.</h2>
       <p style="color:var(--ash);line-height:1.85;margin-bottom:36px;max-width:380px;">Dr. Nandini Seth, PhD from IIM Bangalore and founding faculty at Masters' Union, explores AI, jobs, and India's tech future.</p>
-      <a class="btn btn-outline" href="https://www.youtube.com/watch?v=YG1sW00jwLY" target="_blank" style="align-self:flex-start;">Watch Episode</a>
+      <a class="btn btn-grad" href="https://www.youtube.com/watch?v=YG1sW00jwLY" target="_blank" style="align-self:flex-start;">Watch Episode</a>
     </div>
   </div>
 </div>
@@ -1402,7 +1716,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
   <div class="global-inner reveal">
     <div>
       <p class="mono eyebrow">Global Exposure</p>
-      <h2 class="display section-title" style="margin-bottom:20px;">International<br>Immersion in<br><span class="grad-text">Tech's Most<br>Forward Cities.</span></h2>
+      <h2 class="display section-title" style="margin-bottom:20px;">International<br>Immersion in<br><span class="heading-accent">Tech's Most<br>Forward Cities.</span></h2>
       <p style="color:var(--ash);line-height:1.8;max-width:420px;">Travel to a country you've never been before and immerse in its innovation landscape. Real visits, real companies, real impact.</p>
       <div class="dest-list">
         <div class="dest"><span class="dest-flag">🇯🇵</span><p class="dest-text"><strong>Japan</strong> — Manufacturing tech with Nissan, Daikin, Rakuten</p></div>
@@ -1422,7 +1736,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 <div class="curriculum-wrap" id="curriculum">
   <div class="section section-sm">
     <p class="mono eyebrow">Curriculum Deep Dive</p>
-    <h2 class="display section-title">Build AI Applications. <span class="grad-text">Not Just GPA.</span></h2>
+    <h2 class="display section-title">Build AI Applications. <span class="heading-accent">Not Just GPA.</span></h2>
     <p style="color:var(--ash);line-height:1.8;max-width:600px;margin-bottom:0;">Each year alternates between AI tool development and real-world industry application. Every semester has a concrete mission and measurable outcome.</p>
   </div>
   <div class="sem-tabs">
@@ -1490,12 +1804,12 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 <!-- DEGREES -->
 <div class="degrees-wrap" id="degrees">
   <p class="mono eyebrow">Degree Tracks</p>
-  <h2 class="display section-title">Graduate with a Prestigious<br>Degree from <span class="grad-text">US or India.</span></h2>
+  <h2 class="display section-title">Graduate with a Prestigious<br>Degree from <span class="heading-accent">US or India.</span></h2>
   <p style="color:var(--ash);line-height:1.8;max-width:520px;margin-bottom:0;">Two flexible tracks with recognised degrees from IIT Guwahati or Illinois Tech, Chicago.</p>
   <div class="degrees">
     <div class="degree reveal">
       <div class="degree-bar"></div>
-      <div class="degree-img-clip"><img class="degree-img" src="https://images.mastersunion.link/uploads/15072025/v1/getaccredited17.webp" alt="Illinois Tech" loading="lazy"></div>
+      <div class="degree-img-wrap"><img class="degree-img" src="https://images.mastersunion.link/uploads/15072025/v1/getaccredited17.webp" alt="Illinois Tech" loading="lazy"></div>
       <div class="degree-body">
         <span class="degree-track">Global Track</span>
         <h3 class="degree-name">Illinois Tech,<br>Chicago</h3>
@@ -1510,7 +1824,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
     </div>
     <div class="degree reveal">
       <div class="degree-bar"></div>
-      <div class="degree-img-clip"><img class="degree-img" src="https://images.mastersunion.link/uploads/13062025/v1/getaccredited.webp" alt="IIT Guwahati" loading="lazy"></div>
+      <div class="degree-img-wrap"><img class="degree-img" src="https://images.mastersunion.link/uploads/13062025/v1/getaccredited.webp" alt="IIT Guwahati" loading="lazy"></div>
       <div class="degree-body">
         <span class="degree-track">India Track</span>
         <h3 class="degree-name">IIT,<br>Guwahati</h3>
@@ -1530,7 +1844,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 <div class="cta-section" id="apply">
   <div class="cta-inner reveal">
     <div>
-      <h2 class="display cta-title">The AI Era<br>Belongs to<br>Those Who<br><span class="grad-text">Build It.</span></h2>
+      <h2 class="display cta-title">The AI Era<br>Belongs to<br>Those Who<br><span class="heading-accent">Build It.</span></h2>
     </div>
     <div>
       <div class="deadline-card">
@@ -1542,10 +1856,11 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
       </div>
       <div class="cta-btns">
         <a class="btn btn-fill" href="https://mastersunion.org/dsai-applynow" style="flex:1;justify-content:center;">
-          Apply Now
-          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5h10M7 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Apply Now <span class="btn-arrow"><span>↗</span><span>↗</span></span>
         </a>
-        <a class="btn btn-outline" href="#" style="flex:1;justify-content:center;">Download Brochure</a>
+        <a class="btn btn-outline" href="#" style="flex:1;justify-content:center;">
+          Download Brochure <span class="btn-dl">↓</span>
+        </a>
       </div>
       <div class="contact-row">
         <div class="contact-item"><p class="contact-type">Email</p><a class="contact-val" href="mailto:ugadmissions@mastersunion.org">ugadmissions@mastersunion.org</a></div>
@@ -1576,11 +1891,11 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
   </div>
   <div class="sticky-cta-actions">
     <span class="urgency-dot"></span>
-    <a class="btn btn-outline" href="https://wa.me/919355610239" target="_blank" style="padding:10px 20px;font-size:11px;display:inline-flex;align-items:center;gap:7px;">
+    <a class="btn btn-grad" href="https://wa.me/919355610239" target="_blank" style="padding:12px 24px;font-size:13px;display:inline-flex;align-items:center;gap:8px;">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15" style="flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.73.45 3.35 1.23 4.76L2 22l5.36-1.21A9.93 9.93 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#25D366"/><path d="M16.43 13.95c-.22-.11-1.32-.65-1.53-.73-.2-.07-.35-.11-.5.11-.15.22-.58.73-.71.88-.13.15-.26.17-.48.06-.22-.11-.94-.35-1.8-1.11-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.06-.11-.5-1.21-.69-1.66-.18-.43-.37-.37-.5-.38h-.43c-.15 0-.39.06-.59.28-.2.22-.77.75-.77 1.83s.79 2.12.9 2.27c.11.15 1.55 2.37 3.76 3.32.52.23.93.36 1.25.46.52.17 1 .14 1.38.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.05-.09-.2-.15-.42-.26z" fill="white"/></svg>
       Talk to Counsellor
     </a>
-    <button class="btn btn-fill" onclick="openLeadModal()" style="padding:11px 26px;font-size:11px;">Apply Now</button>
+    <button class="btn btn-fill" onclick="openLeadModal()" style="padding:12px 26px;font-size:13px;">Apply Now <span class="btn-arrow"><span>↗</span><span>↗</span></span></button>
   </div>
 </div>
 
@@ -1588,7 +1903,7 @@ p:not(.mono):not(.stat-label):not(.stat-note):not(.mentor-name):not(.mentor-role
 <div class="lead-modal-overlay" id="lead-modal" onclick="if(event.target===this)closeLeadModal()">
   <div class="lead-modal">
     <button class="lead-modal-close" onclick="closeLeadModal()">✕</button>
-    <h3>Apply for <span class="grad-text">UG DS & AI</span></h3>
+    <h3>Apply for <span class="heading-accent">UG DS & AI</span></h3>
     <p class="lead-modal-sub">Fill in your details and our admissions team will reach out within 24 hours.</p>
     <form class="lead-form" onsubmit="handleLeadSubmit(event)">
       <div class="lead-input-row">
